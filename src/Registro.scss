@@ -1,0 +1,151 @@
+$primary-color: black;
+$primary-dark: black;
+$bg-color: transparent;
+$input-bg: #ffffff;
+$input-border: #d1d5db;
+$border-radius: 10px;
+$transition: 0.3s ease-in-out;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+body {
+  background-image: url("../img/Fondo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: $bg-color;
+  padding: 20px;
+
+  .register-box {
+    background: white;
+    padding: 40px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 10px $shadow-color;
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: $primary-color; // Esto asegura que el texto dentro de la caja sea visible
+
+    h2 {
+      color: $primary-color;
+      margin-bottom: 20px;
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .input-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid $input-border;
+        border-radius: $border-radius;
+        font-size: 16px;
+        background: $input-bg;
+        color: $primary-color; // Asegura que el texto del input sea visible
+        outline: none;
+        transition: $transition;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 8px rgba(3, 123, 192, 0.3);
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+      background: $primary-color;
+      color: white; // Asegura que el texto en el botón sea blanco
+      padding: 14px;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: $transition;
+      box-shadow: 0 4px 10px rgba(3, 123, 192, 0.2);
+
+      &:hover {
+        background: $primary-dark;
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    .login-link {
+      margin-top: 15px;
+      font-size: 14px;
+      color: $primary-color; // Asegura que el texto en el enlace sea visible
+      cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 10px;
+
+    .register-box {
+      padding: 20px;
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    .register-box {
+      padding: 15px;
+      gap: 15px;
+
+      h2 {
+        font-size: 22px;
+      }
+
+      .input-group input {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      .login-link {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@import "./assets/login.scss";
+@import "./assets/crearcitas.scss";
+@import "./assets/Perfil.scss";
+@import "./assets/Citas.scss";

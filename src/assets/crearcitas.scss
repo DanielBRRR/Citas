@@ -1,0 +1,213 @@
+.create-cita-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 35px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  gap: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+  }
+
+  h2 {
+    color: #00bcd4;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    transition: color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+
+    &:hover {
+      color: #03a9f4;
+    }
+  }
+
+  select,
+  input[type="datetime-local"] {
+    padding: 12px 16px;
+    border: 2px solid #333;
+    border-radius: 12px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    background-color: #f7f7f7;
+    color: #333;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+
+    &:focus {
+      border-color: #00bcd4;
+      outline: none;
+      background-color: #f1f1f1;
+    }
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #00bcd4, #03a9f4);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: background 0.4s ease, transform 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+
+    &:hover {
+      background: linear-gradient(135deg, #03a9f4, #00bcd4);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .back-home-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    font-family: 'Roboto', sans-serif;
+
+    &:hover {
+      background-color: #e53e36;
+      transform: translateY(-4px);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .error,
+  .success {
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    padding: 15px;
+    border-radius: 12px;
+    width: 100%;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .error {
+    color: #e74c3c;
+    background-color: #fbe3e4;
+    border: 1px solid #e74c3c;
+  }
+
+  .success {
+    color: #2ecc71;
+    background-color: #daf7da;
+    border: 1px solid #2ecc71;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .login-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #00bcd4;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+    font-family: 'Roboto', sans-serif;
+
+    &:hover {
+      color: #03a9f4;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    max-width: 90%;
+    padding: 25px;
+    gap: 20px;
+
+    h2 {
+      font-size: 26px;
+    }
+
+    select,
+    input[type="datetime-local"] {
+      font-size: 14px;
+      padding: 10px 14px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 14px;
+    }
+
+    .back-home-btn {
+      font-size: 16px;
+      padding: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    max-width: 95%;
+    padding: 20px;
+    gap: 15px;
+
+    h2 {
+      font-size: 22px;
+    }
+
+    select,
+    input[type="datetime-local"] {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    button {
+      font-size: 14px;
+      padding: 12px;
+    }
+
+    .back-home-btn {
+      font-size: 14px;
+      padding: 12px;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}
