@@ -10,8 +10,12 @@ $shadow-color: rgba(0, 0, 0, 0.1);
 body {
   background-image: url("../img/Fondo.png");
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
+  background-position: center center;
+  background-attachment: fixed; // Fija la imagen de fondo al hacer scroll
+  height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .register-container {
