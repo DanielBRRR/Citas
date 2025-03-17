@@ -109,9 +109,8 @@ $transition: 0.3s ease-in-out;
 
 // Media Queries para Responsividad
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .container {
-    height: auto;
     padding: 50px 20px;
   }
 
@@ -126,16 +125,58 @@ $transition: 0.3s ease-in-out;
   }
 }
 
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    padding: 50px 20px;
+  }
+
+  .login-box {
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .button {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .register-link {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 480px) {
+  .container {
+    padding: 30px 15px; /* Reduce padding para dispositivos más pequeños */
+  }
+
   .login-box {
     padding: 20px;
   }
 
   h2 {
-    font-size: 22px;
+    font-size: 20px; /* Ajusta el tamaño del título */
+  }
+
+  .input-group input {
+    font-size: 14px; /* Reduce el tamaño de fuente de los inputs */
   }
 
   .button {
     font-size: 14px;
+    padding: 10px;
+  }
+
+  .register-link {
+    font-size: 12px; /* Reduce el tamaño de la fuente del link */
+  }
+
+  .error-msg {
+    font-size: 12px; /* Ajusta el tamaño del texto de error */
   }
 }
