@@ -53,7 +53,7 @@ const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
   events: [],
-  height: 400,
+  height: 1000,
   headerToolbar: {
     left: 'prev,next today',
     center: 'title',
@@ -69,7 +69,7 @@ const splideOptions = {
   perMove: 2,
   pagination: false,
   arrows: true,
-  gap: '15px',
+  gap: '150px',
   width: '100%',
   autoplay: false,
 };

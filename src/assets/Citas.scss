@@ -1,3 +1,70 @@
+/* Estilos para el calendario dentro del contenedor de citas */
+.calendar-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Estilos generales del calendario */
+.fc {
+  font-family: 'Raleway', sans-serif;
+  color: #333;
+}
+
+/* Cabecera del calendario */
+.fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.fc-button {
+  background-color: #037bc0;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.fc-button:hover {
+  background-color: #025a8d;
+  transform: translateY(-2px);
+}
+
+.fc-button:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+/* Estilos para los días del calendario */
+.fc-daygrid-day {
+  transition: background 0.3s ease;
+}
+
+.fc-daygrid-day:hover {
+  background: rgba(3, 123, 192, 0.1);
+}
+
+/* Estilos para los eventos */
+.fc-event {
+  background-color: #87CEEB !important;
+  border-left: 5px solid #037bc0 !important;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  min-height: 40px;
+  white-space: normal;
+}
+
+.fc-event:hover {
+  background-color: #4682B4 !important;
+}
+
 /* Aseguramos que el body ocupe todo el alto disponible */
 body {
   margin: 0;
@@ -169,28 +236,5 @@ li p {
   li {
     padding: 15px;
     font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .citas-container {
-    padding: 15px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  .profile-button,
-  .logout-button,
-  .create-button,
-  .cancel-button {
-    font-size: 12px;
-    padding: 8px 16px;
-  }
-
-  li {
-    padding: 12px;
-    font-size: 12px;
   }
 }
