@@ -1,0 +1,240 @@
+/* Estilos para el calendario dentro del contenedor de citas */
+.calendar-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Estilos generales del calendario */
+.fc {
+  font-family: 'Raleway', sans-serif;
+  color: #333;
+}
+
+/* Cabecera del calendario */
+.fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.fc-button {
+  background-color: #037bc0;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.fc-button:hover {
+  background-color: #025a8d;
+  transform: translateY(-2px);
+}
+
+.fc-button:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+/* Estilos para los días del calendario */
+.fc-daygrid-day {
+  transition: background 0.3s ease;
+}
+
+.fc-daygrid-day:hover {
+  background: rgba(3, 123, 192, 0.1);
+}
+
+/* Estilos para los eventos */
+.fc-event {
+  background-color: #87CEEB !important;
+  border-left: 5px solid #037bc0 !important;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  min-height: 40px;
+  white-space: normal;
+}
+
+.fc-event:hover {
+  background-color: #4682B4 !important;
+}
+
+/* Aseguramos que el body ocupe todo el alto disponible */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Raleway', sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* Contenedor principal */
+.citas-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: auto;
+  gap: 20px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-button,
+.logout-button,
+.create-button,
+.cancel-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 16px;
+}
+
+.profile-button {
+  background-color: #037bc0;
+  color: white;
+}
+
+.profile-button:hover {
+  background-color: #025a8d;
+  transform: translateY(-2px);
+}
+
+.logout-button {
+  background-color: #d9534f;
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: #c12e2a;
+  transform: translateY(-2px);
+}
+
+.error,
+.success {
+  text-align: center;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.error {
+  color: #ff4d4f;
+  background-color: rgba(255, 77, 79, 0.1);
+  border: 1px solid #ff4d4f;
+}
+
+.success {
+  color: #52c41a;
+  background-color: rgba(82, 196, 26, 0.1);
+  border: 1px solid #52c41a;
+}
+
+.create-button {
+  background-color: #037bc0;
+  color: white;
+  font-size: 18px;
+  width: 100%;
+  max-width: 250px;
+  margin: 20px auto;
+  padding: 14px;
+  border-radius: 8px;
+  display: block;
+  font-weight: 700;
+}
+
+.create-button:hover {
+  background-color: #025a8d;
+  transform: translateY(-2px);
+}
+
+.cancel-button {
+  background-color: #d9534f;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-button:hover {
+  background-color: #c12e2a;
+  transform: translateY(-2px);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+li p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .citas-container {
+    padding: 25px;
+    max-width: 95%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .profile-button,
+  .logout-button,
+  .create-button,
+  .cancel-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  li {
+    padding: 15px;
+    font-size: 14px;
+  }
+}

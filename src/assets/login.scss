@@ -1,0 +1,182 @@
+$primary-color: black;
+$primary-dark: black;
+$bg-color: transparent;
+$input-bg: #ffffff;
+$input-border: #d1d5db;
+$border-radius: 10px;
+$transition: 0.3s ease-in-out;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: $bg-color;
+  padding: 20px;
+
+  .login-box {
+    background: white;
+    padding: 40px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    color: $primary-color; // Asegura que el texto dentro de .login-box sea visible
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .input-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid $input-border;
+        border-radius: $border-radius;
+        font-size: 16px;
+        background: $input-bg;
+        outline: none;
+        color: $primary-color; // Asegura que el texto dentro del input sea visible
+        transition: $transition;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 8px rgba(3, 123, 192, 0.4);
+          transform: scale(1.02);
+        }
+      }
+    }
+
+    .button {
+      width: 100%;
+      background: $primary-color;
+      color: white; // Asegura que el texto dentro del botón sea blanco
+      padding: 12px;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: $transition;
+
+      &:hover {
+        background: $primary-dark;
+        transform: translateY(-3px);
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+    }
+
+    .error-msg {
+      color: red;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .register-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: $primary-color;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    transition: $transition;
+
+    span {
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+        color: $primary-dark;
+      }
+    }
+  }
+}
+
+// Media Queries para Responsividad
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 50px 20px;
+  }
+
+  .login-box {
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  .button {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    padding: 50px 20px;
+  }
+
+  .login-box {
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .button {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .register-link {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 30px 15px; /* Reduce padding para dispositivos más pequeños */
+  }
+
+  .login-box {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px; /* Ajusta el tamaño del título */
+  }
+
+  .input-group input {
+    font-size: 14px; /* Reduce el tamaño de fuente de los inputs */
+  }
+
+  .button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .register-link {
+    font-size: 12px; /* Reduce el tamaño de la fuente del link */
+  }
+
+  .error-msg {
+    font-size: 12px; /* Ajusta el tamaño del texto de error */
+  }
+}
