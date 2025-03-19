@@ -1,4 +1,29 @@
-/* Estilos para el calendario dentro del contenedor de citas */
+/* Estilos globales */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Raleway', sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* Contenedor principal */
+.citas-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: auto;
+  gap: 20px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+/* Estilos para el calendario */
 .calendar-container {
   background: #ffffff;
   border-radius: 12px;
@@ -7,13 +32,11 @@
   overflow: hidden;
 }
 
-/* Estilos generales del calendario */
 .fc {
   font-family: 'Raleway', sans-serif;
   color: #333;
 }
 
-/* Cabecera del calendario */
 .fc-toolbar {
   display: flex;
   justify-content: space-between;
@@ -41,7 +64,6 @@
   cursor: not-allowed;
 }
 
-/* Estilos para los días del calendario */
 .fc-daygrid-day {
   transition: background 0.3s ease;
 }
@@ -50,7 +72,6 @@
   background: rgba(3, 123, 192, 0.1);
 }
 
-/* Estilos para los eventos */
 .fc-event {
   background-color: #87CEEB !important;
   border-left: 5px solid #037bc0 !important;
@@ -65,38 +86,7 @@
   background-color: #4682B4 !important;
 }
 
-/* Aseguramos que el body ocupe todo el alto disponible */
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Raleway', sans-serif;
-  background-color: #f4f6f9;
-}
-
-/* Contenedor principal */
-.citas-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 900px;
-  margin: auto;
-  gap: 20px;
-  padding: 40px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  flex: 1;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
+/* Botones generales */
 .profile-button,
 .logout-button,
 .create-button,
@@ -128,26 +118,6 @@ body {
 .logout-button:hover {
   background-color: #c12e2a;
   transform: translateY(-2px);
-}
-
-.error,
-.success {
-  text-align: center;
-  font-weight: 600;
-  padding: 12px;
-  border-radius: 8px;
-}
-
-.error {
-  color: #ff4d4f;
-  background-color: rgba(255, 77, 79, 0.1);
-  border: 1px solid #ff4d4f;
-}
-
-.success {
-  color: #52c41a;
-  background-color: rgba(82, 196, 26, 0.1);
-  border: 1px solid #52c41a;
 }
 
 .create-button {
@@ -183,6 +153,28 @@ body {
   transform: translateY(-2px);
 }
 
+/* Mensajes de error y éxito */
+.error,
+.success {
+  text-align: center;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.error {
+  color: #ff4d4f;
+  background-color: rgba(255, 77, 79, 0.1);
+  border: 1px solid #ff4d4f;
+}
+
+.success {
+  color: #52c41a;
+  background-color: rgba(82, 196, 26, 0.1);
+  border: 1px solid #52c41a;
+}
+
+/* Listado de citas */
 ul {
   list-style: none;
   padding: 0;
@@ -209,22 +201,94 @@ li p {
   color: #666;
 }
 
+/* Estilos para Splide */
+.splide {
+  max-width: 100%;
+  padding: 20px 0;
+}
+
+.splide__track {
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.splide__slide {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.splide__slide:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.splide__slide p {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.splide__slide .cancel-button {
+  margin-top: 10px;
+  width: 80%;
+  padding: 10px;
+}
+
+.splide__arrow {
+  background-color: #037BC0 !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.splide__arrow:hover {
+  background-color: #025a8d !important;
+  transform: scale(1.1);
+}
+
+.splide__pagination {
+  margin-top: 10px;
+}
+
+.splide__pagination__page {
+  background-color: #b0bec5 !important;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.splide__pagination__page.is-active {
+  background-color: #037BC0 !important;
+  width: 14px;
+  height: 14px;
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
   .citas-container {
     padding: 25px;
     max-width: 95%;
   }
-
   .header {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
-
   h2 {
     font-size: 24px;
   }
-
   .profile-button,
   .logout-button,
   .create-button,
@@ -232,9 +296,16 @@ li p {
     font-size: 14px;
     padding: 10px 20px;
   }
-
   li {
     padding: 15px;
     font-size: 14px;
+  }
+  .splide__slide {
+    padding: 15px;
+    font-size: 14px;
+  }
+  .splide__arrow {
+    width: 30px;
+    height: 30px;
   }
 }

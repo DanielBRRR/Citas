@@ -69,7 +69,7 @@ const splideOptions = {
   perMove: 2,
   pagination: false,
   arrows: true,
-  gap: '150px',
+  gap: '15px',
   width: '100%',
   autoplay: false,
 };
