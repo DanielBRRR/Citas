@@ -40,20 +40,23 @@ const redirectToLogin = () => {
 // Función para crear una nueva cita
 const createCita = async () => {
   try {
-    const token = localStorage.getItem('token');  // Obtener el token del localStorage
+    if (!center.value || !date.value) {
+      errorMsg.value = 'Debes seleccionar un centro y una fecha válida.';
+      return;
+    }
 
+    const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('No estás autenticado. Por favor, inicia sesión primero.');
     }
 
-    // Convertir la fecha en el formato correcto
-    const formattedDate = formatDate(date.value);
+const formattedDate = formatDate(date.value);
 
     const response = await fetch('http://localhost:5000/date/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,  // Enviar el token en el encabezado Authorization
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
         center: center.value,
@@ -63,11 +66,11 @@ const createCita = async () => {
 
     if (!response.ok) {
       if (response.status === 401) {
-        // Token expirado o no válido
         redirectToLogin();
         return;
       }
-      const errorData = await response.json();  // Obtener los detalles del error
+      const errorData = await response.json();
+      console.error('Error 422 detalle:', errorData);
       throw new Error(errorData.msg || 'Error al crear la cita');
     }
 
@@ -75,12 +78,13 @@ const createCita = async () => {
     successMsg.value = data.msg;
     errorMsg.value = '';
 
-    setTimeout(() => router.push('/citas'), 2000); // Redirigir a la página de citas después de 2 segundos
+    setTimeout(() => router.push('/citas'), 2000);
   } catch (error) {
     errorMsg.value = error.message || 'Hubo un error';
     successMsg.value = '';
   }
 };
+
 
 // Función para volver al inicio
 const goToHome = () => {

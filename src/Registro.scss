@@ -73,6 +73,46 @@ body {
       }
     }
 
+    .role-selector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 10px 0;
+
+      label {
+        font-weight: 600;
+        color: $primary-color;
+        user-select: none;
+      }
+
+      button {
+        padding: 10px 20px;
+        border-radius: $border-radius;
+        border: 1.5px solid $input-border;
+        background: $input-bg;
+        color: $primary-color;
+        font-weight: 600;
+        cursor: pointer;
+        transition: $transition;
+        box-shadow: none;
+        user-select: none;
+
+        &:hover {
+          border-color: $primary-color;
+          box-shadow: 0 0 8px rgba(3, 123, 192, 0.3);
+        }
+
+        &.selected-role {
+          background: $primary-color;
+          color: white;
+          border-color: $primary-color;
+          box-shadow: 0 4px 10px rgba(3, 123, 192, 0.2);
+          cursor: default;
+        }
+      }
+    }
+
     button {
       width: 100%;
       background: $primary-color;

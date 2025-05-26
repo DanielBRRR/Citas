@@ -7,25 +7,44 @@ const router = useRouter();
 const username = ref('');
 const password = ref('');
 
+// Función para decodificar el token JWT y extraer el payload
+function parseJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+}
+
 const login = async () => {
   try {
-    const response = await fetch('http://localhost:5000/login', {
+    const response = await fetch('http://127.0.0.1:5000/login', {  // Cambiado a 127.0.0.1
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username.value, password: password.value }),
     });
 
     if (!response.ok) {
-      throw new Error('Usuario o contraseña incorrectos');
+      const errorData = await response.json();
+      throw new Error(errorData.msg || 'Usuario o contraseña incorrectos');
     }
 
     const data = await response.json();
+    console.log('Token recibido:', data.access_token);
+
     localStorage.setItem('token', data.access_token);
-    
-    // Marcar que el usuario acaba de iniciar sesión
+
+    const decoded = parseJwt(data.access_token);
+    console.log('JWT decodificado:', decoded);
+
+    if (decoded && decoded.role) {
+      localStorage.setItem('role', decoded.role);
+    } else {
+      localStorage.setItem('role', 'user');
+    }
+
     localStorage.setItem('justLoggedIn', 'true');
 
-    // Alerta de éxito
     Swal.fire({
       title: '¡Bienvenido!',
       text: 'Inicio de sesión exitoso',
@@ -35,15 +54,15 @@ const login = async () => {
 
     router.push('/citas');
   } catch (error) {
-    // Alerta de error
     Swal.fire({
       title: 'Error',
-      text: error.message || 'Hubo un problema al iniciar sesión',
+      text: error.message,
       icon: 'error',
       confirmButtonColor: '#d33',
     });
   }
 };
+
 
 const goToRegister = () => {
   router.push('/');

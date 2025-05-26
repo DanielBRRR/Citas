@@ -1,36 +1,3 @@
-<template>
-  <div class="citas-container">
-    <div class="header">
-      <button @click="verPerfil" class="profile-button">Ver mi Perfil</button>
-      <button @click="cerrarSesion" class="logout-button">Cerrar Sesión</button>
-    </div>
-
-    <p v-if="loading" class="loading-message">Cargando citas...</p>
-    <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
-
-    <div class="calendar-container text-center py-5">
-      <!-- Aquí va el calendario -->
-      <FullCalendar :options="calendarOptions" />
-    </div>
-
-    <div v-if="!errorMsg && citas.length > 0">
-      <Splide :options="splideOptions" aria-label="Mis citas">
-        <SplideSlide v-for="(cita, index) in citas" :key="cita.id">
-          <div class="cita-item">
-            <p><strong>Centro:</strong> {{ cita.center }}</p>
-            <p><strong>Fecha:</strong> {{ cita.date }}</p>
-            <button @click="cancelarCita(cita)" class="cancel-button">Cancelar Cita</button>
-          </div>
-        </SplideSlide>
-      </Splide>
-    </div>
-
-    <p v-if="!errorMsg && citas.length === 0">No tienes citas.</p>
-    <p v-if="successMsg" class="success">{{ successMsg }}</p>
-
-    <button @click="router.push('/crearcitas')" class="create-button">Crear Cita</button>
-  </div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -42,12 +9,15 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/splide/dist/css/splide.min.css';
+import { jwtDecode } from 'jwt-decode';
+
 
 const router = useRouter();
 const citas = ref([]);
 const errorMsg = ref('');
 const successMsg = ref('');
 const loading = ref(false);
+const role = ref('');
 
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -81,6 +51,9 @@ const fetchCitas = async () => {
     if (!token) {
       throw new Error('No estás autenticado. Por favor, inicia sesión primero.');
     }
+
+    const decoded = jwtDecode(token);
+    role.value = decoded.role || '';
 
     const response = await fetch('http://127.0.0.1:5000/date/getByUser', {
       method: 'GET',
@@ -160,3 +133,42 @@ const verPerfil = () => router.push('/verperfil');
 
 onMounted(fetchCitas);
 </script>
+<template>
+  <div class="citas-container">
+    <div class="header">
+      <button @click="verPerfil" class="profile-button">Ver mi Perfil</button>
+      <button @click="cerrarSesion" class="logout-button">Cerrar Sesión</button>
+    </div>
+
+    <p v-if="loading" class="loading-message">Cargando citas...</p>
+    <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
+
+    <div class="calendar-container text-center py-5">
+      <!-- Aquí va el calendario -->
+      <FullCalendar :options="calendarOptions" />
+    </div>
+
+    <div v-if="!errorMsg && citas.length > 0">
+      <Splide :options="splideOptions" aria-label="Mis citas">
+        <SplideSlide v-for="(cita, index) in citas" :key="cita.id">
+          <div class="cita-item">
+            <p><strong>Centro:</strong> {{ cita.center }}</p>
+            <p><strong>Fecha:</strong> {{ cita.date }}</p>
+            <button
+              v-if="role === 'admin'"
+              @click="cancelarCita(cita)"
+              class="cancel-button"
+            >
+              Cancelar Cita
+            </button>
+          </div>
+        </SplideSlide>
+      </Splide>
+    </div>
+
+    <p v-if="!errorMsg && citas.length === 0">No tienes citas.</p>
+    <p v-if="successMsg" class="success">{{ successMsg }}</p>
+
+    <button @click="router.push('/crearcitas')" class="create-button">Crear Cita</button>
+  </div>
+</template>

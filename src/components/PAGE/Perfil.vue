@@ -31,13 +31,24 @@ const redirectToLogin = () => {
 // Función para obtener el perfil
 const getProfile = async () => {
   try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      errorMsg.value = 'No estás autenticado. Por favor inicia sesión.';
+      redirectToLogin();
+      return;
+    }
+
+    console.log('Token:', token);
+
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${token}`,
       },
     });
+
+    console.log('Respuesta status:', response.status);
 
     if (response.ok) {
       const data = await response.json();
@@ -49,16 +60,21 @@ const getProfile = async () => {
         phone: data.phone,
       };
     } else if (response.status === 401) {
-      // Token expirado o no válido
       redirectToLogin();
+    } else if (response.status === 422) {
+      const errorData = await response.json();
+      errorMsg.value = errorData.msg || 'Error de entidad no procesable (422)';
+      console.error('422 Detalles:', errorData);
     } else {
       const errorData = await response.json();
       errorMsg.value = errorData.msg || 'Error al obtener el perfil';
     }
   } catch (error) {
     errorMsg.value = 'Error al obtener el perfil';
+    console.error(error);
   }
 };
+
 
 // Función para guardar los cambios en el perfil
 const saveProfile = async () => {

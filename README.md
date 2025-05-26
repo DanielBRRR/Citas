@@ -1,29 +1,45 @@
-# Citas_Gestoria_DAG
+# Gestoría de Citas - Vue.js
 
-This template should help get you started developing with Vue 3 in Vite.
+Aplicación web desarrollada con Vue.js para gestionar citas de clientes en una gestoría. El sistema se conecta a una API REST que maneja el acceso a una base de datos, permitiendo realizar operaciones CRUD sobre citas y clientes 
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Características
 
-## Customize configuration
+- CRUD completo de citas (crear, leer, actualizar, eliminar)
+- Gestión de clientes
+- Paginación y ordenamiento de citas
+- Conexión a una API propia para persistencia de datos
+- Diseño responsive con estilos personalizados y uso de SCSS
+- Uso de Vue Router para navegación entre páginas
+- Integración de paquetes externos como:
+  - Splide
+  - SweetAlert2
+- Uso de eventos del ciclo de vida de Vue (mounted, created, etc.)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Tecnologías usadas
 
-## Project Setup
+- Vue 3 con `<script setup>`
+- Vue Router
+- SCSS
+- Splide
+- SweetAlert2
+- Bootstrap 
+- Node.js (para la API REST)
+- MongoDB 
 
-```sh
-npm install
-```
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
+## Conexión a la API
 
-### Compile and Minify for Production
+La API expone endpoints REST para gestionar las citas y clientes. Está desarrollada con Python  y conectada a una base de datos en Mongo DB.
 
-```sh
-npm run build
-```
+## Estado del proyecto
+
+Funcionalidad principal completa  
+En desarrollo nuevas funcionalidades como autenticación de usuarios y sistema de notificaciones
+
+## Autor
+
+Daniel Andaluz Ginés y Santiago Patiño Donnoso
+Estudiante de desarrollo de aplicaciones web - IEP Joyfe  
+https://github.com/DanielBRRR/Citas
