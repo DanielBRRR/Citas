@@ -55,7 +55,12 @@ const fetchCitas = async () => {
     const decoded = jwtDecode(token);
     role.value = decoded.role || '';
 
-    const response = await fetch('http://127.0.0.1:5000/date/getByUser', {
+    // Elegimos el endpoint según el rol
+    const endpoint = role.value === 'admin' 
+      ? 'http://127.0.0.1:5000/dates'          // para admin: todas las citas
+      : 'http://127.0.0.1:5000/date/getByUser'; // para usuario: solo sus citas
+
+    const response = await fetch(endpoint, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${token}` },
     });
@@ -80,6 +85,8 @@ const fetchCitas = async () => {
   }
 };
 
+
+
 const actualizarCalendario = () => {
   calendarOptions.value.events = citas.value.map(cita => ({
     title: cita.center,
@@ -93,13 +100,21 @@ const cancelarCita = async (cita) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No estás autenticado.');
 
-    const response = await fetch('http://127.0.0.1:5000/date/delete', {
+    // Ajustamos la fecha para que termine en "00:00" como espera el backend
+    // Si ya tienes la fecha en 'dd/mm/yyyy HH:mm:ss' pero el backend espera 'HH:00:00'
+    // Podemos convertir el tiempo a la hora exacta y minutos y segundos a 00
+    // Asumiendo que cita.date ya viene en 'dd/mm/yyyy HH:mm:ss' o similar
+    let [datePart, timePart] = cita.date.split(' ');
+    let hour = timePart.split(':')[0];
+    let formattedDate = `${datePart} ${hour}:00:00`;
+
+    const response = await fetch('http://127.0.0.1:5000/date/cancel', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ center: cita.center, date: cita.date }),
+      body: JSON.stringify({ center: cita.center, date: formattedDate }),
     });
 
     if (!response.ok) {
@@ -111,13 +126,16 @@ const cancelarCita = async (cita) => {
       throw new Error(errorData.msg || 'Error al cancelar la cita');
     }
 
-    successMsg.value = 'Cita cancelada con éxito';
+    const result = await response.json();
+    successMsg.value = result.msg || 'Cita actualizada con éxito';
     fetchCitas();
   } catch (error) {
     errorMsg.value = error.message;
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });
   }
 };
+
+
 
 const redirectToLogin = () => {
   Swal.fire({ icon: 'error', title: 'Sesión Expirada', text: 'Tu sesión ha expirado.' });

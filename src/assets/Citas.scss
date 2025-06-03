@@ -1,241 +1,251 @@
-/* Estilos para el calendario dentro del contenedor de citas */
-.calendar-container {
-  background: #ffffff;
+/* Contenedor principal */
+.citas-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: 2rem auto;
+  gap: 2rem;
+  padding: 2.5rem 2rem;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  flex: 1;
+  font-family: 'Raleway', sans-serif;
+  color: #444;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+/* Botones generales */
+.profile-button,
+.logout-button,
+.create-button,
+.cancel-button {
+  padding: 0.75rem 1.8rem;
+  border: none;
   border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+  font-size: 1rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+/* Botón perfil */
+.profile-button {
+  background-color: #037bc0;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(3, 123, 192, 0.4);
+}
+.profile-button:hover,
+.profile-button:focus {
+  background-color: #025a8d;
+  box-shadow: 0 6px 18px rgba(2, 90, 141, 0.55);
+  transform: translateY(-2px);
+}
+
+/* Botón logout */
+.logout-button {
+  background-color: #d9534f;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(217, 83, 79, 0.4);
+}
+.logout-button:hover,
+.logout-button:focus {
+  background-color: #c12e2a;
+  box-shadow: 0 6px 18px rgba(193, 46, 42, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Botón crear cita */
+.create-button {
+  background-color: #037bc0;
+  color: #fff;
+  font-size: 1.1rem;
+  max-width: 280px;
+  margin: 2rem auto 0 auto;
+  display: block;
+  box-shadow: 0 6px 16px rgba(3, 123, 192, 0.45);
+}
+.create-button:hover,
+.create-button:focus {
+  background-color: #025a8d;
+  box-shadow: 0 8px 24px rgba(2, 90, 141, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Botón cancelar cita */
+.cancel-button {
+  background-color: #d9534f;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.4rem;
+  box-shadow: 0 4px 12px rgba(217, 83, 79, 0.4);
+}
+.cancel-button:hover,
+.cancel-button:focus {
+  background-color: #c12e2a;
+  box-shadow: 0 6px 18px rgba(193, 46, 42, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Mensajes */
+.error,
+.success {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  user-select: none;
+}
+
+.error {
+  color: #ff4d4f;
+  background-color: #ffe6e6;
+  border: 1.5px solid #ff4d4f;
+}
+
+.success {
+  color: #52c41a;
+  background-color: #ebffde;
+  border: 1.5px solid #52c41a;
+}
+
+/* Estilos para el calendario */
+.calendar-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
   overflow: hidden;
 }
 
-/* Estilos generales del calendario */
+/* FullCalendar font y colores */
 .fc {
   font-family: 'Raleway', sans-serif;
-  color: #333;
+  color: #444;
+  user-select: none;
 }
 
-/* Cabecera del calendario */
 .fc-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 0.5rem 0 1rem;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 1rem;
 }
 
 .fc-button {
   background-color: #037bc0;
   border: none;
   color: white;
-  font-weight: bold;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(3, 123, 192, 0.4);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  user-select: none;
 }
 
-.fc-button:hover {
+.fc-button:hover,
+.fc-button:focus {
   background-color: #025a8d;
+  box-shadow: 0 6px 18px rgba(2, 90, 141, 0.55);
   transform: translateY(-2px);
 }
 
 .fc-button:disabled {
   background-color: #b0bec5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-/* Estilos para los días del calendario */
 .fc-daygrid-day {
   transition: background 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .fc-daygrid-day:hover {
-  background: rgba(3, 123, 192, 0.1);
+  background: rgba(3, 123, 192, 0.12);
 }
 
-/* Estilos para los eventos */
 .fc-event {
   background-color: #87CEEB !important;
   border-left: 5px solid #037bc0 !important;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  min-height: 40px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  min-height: 44px;
   white-space: normal;
+  box-shadow: 0 3px 10px rgba(3, 123, 192, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
 }
 
 .fc-event:hover {
   background-color: #4682B4 !important;
+  box-shadow: 0 6px 18px rgba(70, 130, 180, 0.5);
 }
 
-/* Aseguramos que el body ocupe todo el alto disponible */
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+/* Lista de citas dentro del carrusel */
+.cita-item {
+  background: #f9fbfd;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  min-height: 160px;
   display: flex;
   flex-direction: column;
-  font-family: 'Raleway', sans-serif;
-  background-color: #f4f6f9;
+  justify-content: center;
+  color: #333;
 }
 
-/* Contenedor principal */
-.citas-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 900px;
-  margin: auto;
-  gap: 20px;
-  padding: 40px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  flex: 1;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.profile-button,
-.logout-button,
-.create-button,
-.cancel-button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  font-size: 16px;
-}
-
-.profile-button {
-  background-color: #037bc0;
-  color: white;
-}
-
-.profile-button:hover {
-  background-color: #025a8d;
-  transform: translateY(-2px);
-}
-
-.logout-button {
-  background-color: #d9534f;
-  color: white;
-}
-
-.logout-button:hover {
-  background-color: #c12e2a;
-  transform: translateY(-2px);
-}
-
-.error,
-.success {
-  text-align: center;
+.cita-item p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 12px;
-  border-radius: 8px;
-}
-
-.error {
-  color: #ff4d4f;
-  background-color: rgba(255, 77, 79, 0.1);
-  border: 1px solid #ff4d4f;
-}
-
-.success {
-  color: #52c41a;
-  background-color: rgba(82, 196, 26, 0.1);
-  border: 1px solid #52c41a;
-}
-
-.create-button {
-  background-color: #037bc0;
-  color: white;
-  font-size: 18px;
-  width: 100%;
-  max-width: 250px;
-  margin: 20px auto;
-  padding: 14px;
-  border-radius: 8px;
-  display: block;
-  font-weight: 700;
-}
-
-.create-button:hover {
-  background-color: #025a8d;
-  transform: translateY(-2px);
-}
-
-.cancel-button {
-  background-color: #d9534f;
-  color: white;
-  font-size: 14px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.cancel-button:hover {
-  background-color: #c12e2a;
-  transform: translateY(-2px);
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-li:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-}
-
-li p {
-  margin: 8px 0;
-  font-size: 16px;
-  color: #666;
 }
 
 @media (max-width: 768px) {
   .citas-container {
-    padding: 25px;
+    padding: 1.5rem 1rem;
     max-width: 95%;
   }
 
   .header {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  h2 {
-    font-size: 24px;
+    justify-content: center;
+    gap: 0.75rem;
   }
 
   .profile-button,
   .logout-button,
   .create-button,
   .cancel-button {
-    font-size: 14px;
-    padding: 10px 20px;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.3rem;
   }
 
-  li {
-    padding: 15px;
-    font-size: 14px;
+  .cita-item {
+    min-height: auto;
+    padding: 1rem 1.2rem;
+  }
 
+  .cita-item p {
+    font-size: 0.9rem;
   }
 }

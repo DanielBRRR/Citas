@@ -10,15 +10,22 @@ const profileData = ref({
   lastname: '',
   email: '',
   phone: '',
+  role: 'user',
+  date: '',  // agregado por si quieres usarlo
 });
-const errorMsg = ref('');
-const successMsg = ref('');
-const isEditing = ref(false);  // Estado para determinar si estamos en modo edición
+const isEditing = ref(false);
+const loggedUserRole = localStorage.getItem('role')?.toLowerCase() || 'user';
 
-// API URL
-const apiUrl = 'http://127.0.0.1:5000/profile';
+const apiUrl = 'http://127.0.0.1:5000/currentUser';
 
-// Función para manejar redirección al login si el token ha expirado
+function parseJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch {
+    return null;
+  }
+}
+
 const redirectToLogin = () => {
   Swal.fire({
     icon: 'error',
@@ -28,194 +35,168 @@ const redirectToLogin = () => {
   router.push('/login');
 };
 
-// Función para obtener el perfil
+const validateEmail = (email) => {
+  // Validación simple de email
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
 const getProfile = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) return redirectToLogin();
+
+  const res = await fetch(apiUrl, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (res.ok) {
+    const data = await res.json();
+    profileData.value = { ...data, role: (data.role || 'user').toLowerCase() };
+  } else if (res.status === 401) redirectToLogin();
+};
+
+onMounted(() => getProfile());
+
+// Función mini login admin con Swal para confirmar cambio de rol
+async function adminLoginCheck() {
+  const { value: formValues } = await Swal.fire({
+    title: 'Confirmar admin para cambiar rol',
+    html:
+      '<input id="swal-username" class="swal2-input" placeholder="Usuario">' +
+      '<input id="swal-password" type="password" class="swal2-input" placeholder="Contraseña">',
+    focusConfirm: false,
+    preConfirm: () => {
+      return {
+        username: document.getElementById('swal-username').value,
+        password: document.getElementById('swal-password').value,
+      };
+    },
+  });
+
+  if (!formValues) return false;
+
   try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      errorMsg.value = 'No estás autenticado. Por favor inicia sesión.';
-      redirectToLogin();
-      return;
+    const res = await fetch('http://127.0.0.1:5000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formValues),
+    });
+
+    if (!res.ok) {
+      Swal.showValidationMessage('Usuario o contraseña incorrectos');
+      return false;
     }
 
-    console.log('Token:', token);
+    const data = await res.json();
+    const decoded = parseJwt(data.access_token);
 
-    const response = await fetch(apiUrl, {
-      method: 'GET',
+    if (!decoded || decoded.role.toLowerCase() !== 'admin') {
+      Swal.showValidationMessage('Debe ser administrador para continuar');
+      return false;
+    }
+
+    // Guardamos token y rol admin temporal
+    localStorage.setItem('token', data.access_token);
+    localStorage.setItem('role', 'admin');
+
+    return true;
+
+  } catch {
+    Swal.showValidationMessage('Error en la conexión');
+    return false;
+  }
+}
+
+const saveProfile = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) return redirectToLogin();
+
+  if (!profileData.value.name.trim()) {
+    Swal.fire('Error', 'El nombre no puede estar vacío', 'error');
+    return;
+  }
+
+  if (!validateEmail(profileData.value.email)) {
+    Swal.fire('Error', 'El email no es válido', 'error');
+    return;
+  }
+
+  // Si el rol ha cambiado y usuario actual NO es admin, pedimos login admin para confirmar
+  if (profileData.value.role !== loggedUserRole && loggedUserRole !== 'admin') {
+    const confirmed = await adminLoginCheck();
+    if (!confirmed) return;
+  }
+
+  // Construir payload con solo campos permitidos
+  const payload = {
+    name: profileData.value.name,
+    lastname: profileData.value.lastname,
+    email: profileData.value.email,
+    phone: profileData.value.phone,
+    date: profileData.value.date, // si usas fecha, sino lo puedes quitar
+    role: profileData.value.role,
+  };
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
+      body: JSON.stringify(payload),
     });
 
-    console.log('Respuesta status:', response.status);
-
-    if (response.ok) {
-      const data = await response.json();
-      profileData.value = {
-        username: data.username,
-        name: data.name,
-        lastname: data.lastname,
-        email: data.email,
-        phone: data.phone,
-      };
-    } else if (response.status === 401) {
-      redirectToLogin();
-    } else if (response.status === 422) {
-      const errorData = await response.json();
-      errorMsg.value = errorData.msg || 'Error de entidad no procesable (422)';
-      console.error('422 Detalles:', errorData);
-    } else {
-      const errorData = await response.json();
-      errorMsg.value = errorData.msg || 'Error al obtener el perfil';
+    if (res.status === 403) {
+      Swal.fire('Error', 'No tienes permisos para cambiar el rol', 'error');
+      return;
     }
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.msg || 'Error al guardar el perfil');
+    }
+
+    const updatedData = await res.json();
+    profileData.value = { ...updatedData, role: (updatedData.role || 'user').toLowerCase() };
+
+    Swal.fire('Éxito', 'Perfil guardado correctamente', 'success');
+    isEditing.value = false;
   } catch (error) {
-    errorMsg.value = 'Error al obtener el perfil';
-    console.error(error);
+    Swal.fire('Error', error.message || 'No se pudo guardar el perfil', 'error');
   }
 };
 
-
-// Función para guardar los cambios en el perfil
-const saveProfile = async () => {
-  try {
-    const response = await fetch('http://127.0.0.1:5000/currentUser', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        name: profileData.value.name,
-        lastname: profileData.value.lastname,
-        email: profileData.value.email,
-        phone: profileData.value.phone
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      profileData.value = {
-        username: data.username,
-        name: data.name,
-        lastname: data.lastname,
-        email: data.email,
-        phone: data.phone,
-      };
-      isEditing.value = false;
-      successMsg.value = 'Perfil actualizado correctamente';
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Perfil actualizado correctamente',
-      });
-
-      // Vuelve a cargar los datos actualizados después de guardar
-      getProfile(); // Esto actualizará la vista con los datos más recientes
-
-      // Redirigir a la página de citas
-      router.push('/citas');
-
-    } else if (response.status === 401) {
-      // Token expirado o no válido
-      redirectToLogin();
-    } else {
-      const errorData = await response.json();
-      errorMsg.value = errorData.msg || 'Error al guardar los cambios';
-    }
-  } catch (error) {
-    errorMsg.value = 'Error al guardar los cambios';
-  }
-};
-
-// Activar el modo de edición
 const editProfile = () => {
   isEditing.value = true;
 };
-
-// Redirigir al inicio
-const goHome = () => {
-  router.push('/citas');
-};
-
-onMounted(() => {
-  getProfile();
-});
 </script>
 
 <template>
-  <div class="profile-container">
-    <div class="profile-box">
-      <h2>Perfil de Usuario</h2>
+  <div>
+    <h2>Perfil de Usuario</h2>
 
-      <!-- Mensajes de éxito o error -->
-      <div v-if="errorMsg" class="alert alert-error">
-        <i class="fa-solid fa-triangle-exclamation"></i> {{ errorMsg }}
-      </div>
-      <div v-if="successMsg" class="alert alert-success">
-        <i class="fa-solid fa-check-circle"></i> {{ successMsg }}
-      </div>
-
-      <div v-else>
-        <!-- Vista de perfil cuando no estamos editando -->
-        <div class="profile-info" v-if="!isEditing">
-          <div class="profile-item">
-            <strong>Usuario:</strong>
-            <span>{{ profileData.username }}</span>
-          </div>
-          <div class="profile-item">
-            <strong>Nombre:</strong>
-            <span>{{ profileData.name }}</span>
-          </div>
-          <div class="profile-item">
-            <strong>Apellido:</strong>
-            <span>{{ profileData.lastname }}</span>
-          </div>
-          <div class="profile-item">
-            <strong>Correo:</strong>
-            <span>{{ profileData.email }}</span>
-          </div>
-          <div class="profile-item">
-            <strong>Teléfono:</strong>
-            <span>{{ profileData.phone }}</span>
-          </div>
-        </div>
-
-        <!-- Formulario de edición -->
-        <div v-if="isEditing">
-          <div class="profile-item">
-            <label for="name">Nombre:</label>
-            <input v-model="profileData.name" id="name" type="text" placeholder="Nombre" />
-          </div>
-          <div class="profile-item">
-            <label for="lastname">Apellido:</label>
-            <input v-model="profileData.lastname" id="lastname" type="text" placeholder="Apellido" />
-          </div>
-          <div class="profile-item">
-            <label for="email">Correo:</label>
-            <input v-model="profileData.email" id="email" type="email" placeholder="Correo electrónico" />
-          </div>
-          <div class="profile-item">
-            <label for="phone">Teléfono:</label>
-            <input v-model="profileData.phone" id="phone" type="text" placeholder="Teléfono" />
-          </div>
-        </div>
-
-        <!-- Botones de acción -->
-        <div class="buttons">
-          <button v-if="!isEditing" @click="editProfile">
-            <i class="fa-solid fa-pen-to-square"></i> Editar perfil
-          </button>
-          <button v-if="isEditing" @click="saveProfile">
-            <i class="fa-solid fa-save"></i> Guardar cambios
-          </button>
-          <button @click="goHome">
-            <i class="fa-solid fa-house"></i> Volver al inicio
-          </button>
-        </div>
-
-      </div>
+    <div v-if="!isEditing">
+      <p><b>Usuario:</b> {{ profileData.username }}</p>
+      <p><b>Nombre:</b> {{ profileData.name }}</p>
+      <p><b>Apellido:</b> {{ profileData.lastname }}</p>
+      <p><b>Email:</b> {{ profileData.email }}</p>
+      <p><b>Teléfono:</b> {{ profileData.phone }}</p>
+      <p><b>Fecha:</b> {{ profileData.date }}</p>
+      <p><b>Rol:</b> {{ profileData.role }}</p>
     </div>
+
+    <div v-else>
+      <input v-model="profileData.name" placeholder="Nombre" />
+      <input v-model="profileData.lastname" placeholder="Apellido" />
+      <input v-model="profileData.email" placeholder="Email" />
+      <input v-model="profileData.phone" placeholder="Teléfono" />
+      <input v-model="profileData.date" placeholder="Fecha (DD/MM/YYYY)" />
+      <select v-model="profileData.role">
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+
+    <button v-if="!isEditing" @click="editProfile">Editar perfil</button>
+    <button v-else @click="saveProfile">Guardar cambios</button>
   </div>
 </template>

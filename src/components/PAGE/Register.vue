@@ -141,12 +141,6 @@ const goToRegister = () => {
           >
             Usuario
           </button>
-          <button
-            :class="{ 'selected-role': role === 'admin' }"
-            @click="role = 'admin'"
-          >
-            Administrador
-          </button>
         </div>
 
         <button @click="register">Registrarse</button>
