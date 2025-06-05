@@ -1,70 +1,108 @@
 .user-management {
-  padding: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  h2 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #037BC0;
+.user-management h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.no-permission {
+  color: #dc2626;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.user-management table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+  text-align: center; /* Centrar texto en toda la tabla */
+}
+
+.user-management thead tr {
+  background-color: #bfdbfe;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #1e40af;
+}
+
+.user-management thead th {
+  padding: 1rem 1.25rem;
+  text-align: center; /* Centrar los encabezados */
+}
+
+.user-management tbody td {
+  padding: 0.9rem 1.25rem;
+  color: #374151;
+  font-weight: 500;
+  vertical-align: middle;
+  border-bottom: none;
+  border-radius: 6px;
+  text-align: center; /* Centrar contenido de celdas */
+}
+
+.user-management tbody tr {
+  background-color: #f3f4f6;
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+.user-management tbody tr:hover {
+  background-color: #e0e7ff;
+}
+
+.user-management select {
+  padding: 0.3rem 0.7rem;
+  border: 2px solid #2563eb;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #2563eb;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  font-size: 0.9rem;
+  /* Eliminar margin-right para no desplazarlo */
+  margin: 0 auto;
+  display: block;
+  min-width: 110px; /* Ancho mínimo para que no se vea muy pequeño */
+}
+
+.user-management select:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 6px rgba(29, 78, 216, 0.6);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+  .user-management {
+    padding: 1rem;
   }
 
-  .no-access {
-    color: #e53e3e;
-    text-align: center;
-    font-weight: 600;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    overflow: hidden;
-
-    thead {
-      background-color: #e0f2fe;
-
-      th {
-        padding: 1rem;
-        text-align: left;
-        font-weight: 600;
-      }
-    }
-
-    tbody {
-      tr {
-        border-top: 1px solid #d1d5db;
-
-        td {
-          padding: 0.75rem;
-        }
-
-        select {
-          padding: 0.4rem 0.8rem;
-          border-radius: 0.375rem;
-          border: 1px solid #cbd5e0;
-          background-color: #f9fafb;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-
-  .btn-back {
-    display: block;
-    margin: 2rem auto 0;
-    padding: 0.6rem 1.2rem;
-    background-color: #8cbc00;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #76a900;
-    }
+  .user-management table {
+    font-size: 0.85rem;
   }
 }

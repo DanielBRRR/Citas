@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 
 const router = useRouter();
-const profileData = ref({
+const userProfileData = ref({
   username: '',
   name: '',
   lastname: '',
@@ -12,9 +12,9 @@ const profileData = ref({
   phone: '',
   date: '',
 });
-const isEditing = ref(false);
+const userIsEditing = ref(false);
 
-const apiUrl = 'http://127.0.0.1:5000/currentUser';
+const userApiUrl = 'http://127.0.0.1:5000/currentUser';
 
 function redirectToLogin() {
   Swal.fire({
@@ -29,13 +29,11 @@ const validateEmail = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
 
-// Valida formato DD/MM/YYYY
 const isValidDate = (dateStr) => {
   const regex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/;
   return regex.test(dateStr);
 };
 
-// Formatea fecha ISO a DD/MM/YYYY
 const formatDateToDDMMYYYY = (isoDate) => {
   if (!isoDate) return '';
   const date = new Date(isoDate);
@@ -46,56 +44,56 @@ const formatDateToDDMMYYYY = (isoDate) => {
   return `${day}/${month}/${year}`;
 };
 
-const getProfile = async () => {
+const getUserProfile = async () => {
   const token = localStorage.getItem('token');
   if (!token) return redirectToLogin();
 
-  const res = await fetch(apiUrl, {
+  const res = await fetch(userApiUrl, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
 
   if (res.ok) {
     const data = await res.json();
-    profileData.value = {
+    userProfileData.value = {
       ...data,
-      date: formatDateToDDMMYYYY(data.date), // formateo aquí
+      date: formatDateToDDMMYYYY(data.date),
     };
   } else if (res.status === 401) {
     redirectToLogin();
   }
 };
 
-onMounted(() => getProfile());
+onMounted(() => getUserProfile());
 
-const saveProfile = async () => {
+const saveUserProfile = async () => {
   const token = localStorage.getItem('token');
   if (!token) return redirectToLogin();
 
-  if (!profileData.value.name.trim()) {
+  if (!userProfileData.value.name.trim()) {
     Swal.fire('Error', 'El nombre no puede estar vacío', 'error');
     return;
   }
 
-  if (!validateEmail(profileData.value.email)) {
+  if (!validateEmail(userProfileData.value.email)) {
     Swal.fire('Error', 'El email no es válido', 'error');
     return;
   }
 
-  if (!isValidDate(profileData.value.date)) {
+  if (!isValidDate(userProfileData.value.date)) {
     Swal.fire('Error', 'La fecha debe tener el formato DD/MM/YYYY', 'error');
     return;
   }
 
   const payload = {
-    name: profileData.value.name,
-    lastname: profileData.value.lastname,
-    email: profileData.value.email,
-    phone: profileData.value.phone,
-    date: profileData.value.date,
+    name: userProfileData.value.name,
+    lastname: userProfileData.value.lastname,
+    email: userProfileData.value.email,
+    phone: userProfileData.value.phone,
+    date: userProfileData.value.date,
   };
 
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(userApiUrl, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -110,45 +108,69 @@ const saveProfile = async () => {
     }
 
     const updatedData = await res.json();
-    profileData.value = {
+    userProfileData.value = {
       ...updatedData,
-      date: formatDateToDDMMYYYY(updatedData.date), // formatear después de actualizar
+      date: formatDateToDDMMYYYY(updatedData.date),
     };
 
     Swal.fire('Éxito', 'Perfil guardado correctamente', 'success');
-    isEditing.value = false;
+    userIsEditing.value = false;
   } catch (error) {
     Swal.fire('Error', error.message || 'No se pudo guardar el perfil', 'error');
   }
 };
 
-const editProfile = () => {
-  isEditing.value = true;
+const editUserProfile = () => {
+  userIsEditing.value = true;
+};
+
+const goBackToCitas = () => {
+  router.push('/citas');
 };
 </script>
 
 <template>
-  <div>
-    <h2>Perfil de Usuario</h2>
+  <div class="perfil-container">
+    <h2 class="perfil-title">Perfil de Usuario</h2>
 
-    <div v-if="!isEditing">
-      <p><b>Usuario:</b> {{ profileData.username }}</p>
-      <p><b>Nombre:</b> {{ profileData.name }}</p>
-      <p><b>Apellido:</b> {{ profileData.lastname }}</p>
-      <p><b>Email:</b> {{ profileData.email }}</p>
-      <p><b>Teléfono:</b> {{ profileData.phone }}</p>
-      <p><b>Fecha:</b> {{ profileData.date }}</p>
+    <div v-if="!userIsEditing" class="perfil-display">
+      <p class="perfil-item"><b>Usuario:</b> {{ userProfileData.username }}</p>
+      <p class="perfil-item"><b>Nombre:</b> {{ userProfileData.name }}</p>
+      <p class="perfil-item"><b>Apellido:</b> {{ userProfileData.lastname }}</p>
+      <p class="perfil-item"><b>Email:</b> {{ userProfileData.email }}</p>
+      <p class="perfil-item"><b>Teléfono:</b> {{ userProfileData.phone }}</p>
+      <p class="perfil-item"><b>Fecha:</b> {{ userProfileData.date }}</p>
     </div>
 
-    <div v-else>
-      <input v-model="profileData.name" placeholder="Nombre" />
-      <input v-model="profileData.lastname" placeholder="Apellido" />
-      <input v-model="profileData.email" placeholder="Email" />
-      <input v-model="profileData.phone" placeholder="Teléfono" />
-      <input v-model="profileData.date" placeholder="Fecha (DD/MM/YYYY)" />
+    <div v-else class="perfil-edit">
+      <input v-model="userProfileData.name" class="perfil-input" placeholder="Nombre" />
+      <input v-model="userProfileData.lastname" class="perfil-input" placeholder="Apellido" />
+      <input v-model="userProfileData.email" class="perfil-input" placeholder="Email" />
+      <input v-model="userProfileData.phone" class="perfil-input" placeholder="Teléfono" />
+      <input v-model="userProfileData.date" class="perfil-input" placeholder="Fecha (DD/MM/YYYY)" />
     </div>
 
-    <button v-if="!isEditing" @click="editProfile">Editar perfil</button>
-    <button v-else @click="saveProfile">Guardar cambios</button>
+    <button
+      v-if="!userIsEditing"
+      @click="editUserProfile"
+      class="perfil-button perfil-button-edit"
+    >
+      Editar perfil
+    </button>
+    <button
+      v-else
+      @click="saveUserProfile"
+      class="perfil-button perfil-button-save"
+    >
+      Guardar cambios
+    </button>
+
+    <button
+      @click="goBackToCitas"
+      class="perfil-button perfil-button-back"
+      type="button"
+    >
+      Volver a citas
+    </button>
   </div>
 </template>

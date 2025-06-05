@@ -62,31 +62,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-6">
-    <h2 class="text-2xl font-bold mb-4 text-center">Gestión de Usuarios</h2>
+  <div class="user-management p-6">
+    <h2>Gestión de Usuarios</h2>
 
-    <div v-if="currentRole !== 'admin'" class="text-red-500 text-center">
+    <div v-if="currentRole !== 'admin'" class="no-permission">
       No tienes permisos para ver esta sección.
     </div>
 
     <div v-else class="overflow-x-auto">
-      <table class="w-full table-auto border border-gray-300 shadow rounded-lg">
-        <thead class="bg-blue-100">
+      <table>
+        <thead>
           <tr>
-            <th class="p-3 text-left">Usuario</th>
-            <th class="p-3 text-left">Rol</th>
-            <th class="p-3 text-center">Acción</th>
+            <th>Usuario</th>
+            <th>Rol</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.username" class="border-t">
-            <td class="p-3">{{ user.username }}</td>
-            <td class="p-3 capitalize">{{ user.role }}</td>
-            <td class="p-3 text-center">
+          <tr v-for="user in users" :key="user.username">
+            <td>{{ user.username }}</td>
+
+            <td class="text-center">
               <select
                 v-model="user.role"
                 @change="changeRole(user.username, user.role)"
-                class="border px-2 py-1 rounded-md"
               >
                 <option value="user">Usuario</option>
                 <option value="admin">Administrador</option>
@@ -98,5 +96,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-

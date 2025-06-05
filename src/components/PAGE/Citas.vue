@@ -153,13 +153,15 @@ const verUsuarios =() =>router.push('/listado');
 onMounted(fetchCitas);
 </script>
 <template>
-  <div class="citas-container">
 <div class="header flex flex-wrap items-center justify-center gap-4 mb-8">
   <button @click="verPerfil" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">Ver mi Perfil</button>
   <button v-if="role === 'admin'" @click="verUsuarios" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">Ver usuarios</button>
   <button @click="router.push('/crearcitas')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">Crear Cita</button>
   <button @click="cerrarSesion" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">Cerrar Sesión</button>
 </div>
+
+  <div class="citas-container">
+
 
 
     <p v-if="loading" class="loading-message">Cargando citas...</p>

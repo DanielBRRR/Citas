@@ -1,259 +1,110 @@
-/* Contenedor principal */
-.citas-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 960px;
-  margin: 2rem auto;
-  gap: 2rem;
-  padding: 2.5rem 2rem;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  font-family: 'Raleway', sans-serif;
-  color: #444;
-}
-
-/* Header */
 .header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  background-color: transparent; /* azul principal */
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
 }
 
-/* Botones generales */
-.profile-button,
-.logout-button,
-.create-button,
-.cancel-button {
-  padding: 0.75rem 1.6rem;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
-  font-size: 1rem;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  user-select: none;
+.header button {
+    width: 20%;
+    padding: 16px;
+    background: linear-gradient(135deg, #00bcd4, #03a9f4);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 60;
+    margin-left: 70px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: background 0.4s ease, transform 0.3s ease;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Botón perfil */
-.profile-button {
-  background-color: #037bc0;
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(3, 123, 192, 0.4);
-}
-.profile-button:hover,
-.profile-button:focus {
-  background-color: #025a8d;
-  box-shadow: 0 6px 18px rgba(2, 90, 141, 0.55);
-  transform: translateY(-2px);
+.header button:hover {
+  background-color: transparent; /* azul más oscuro para hover */
 }
 
-/* Botón logout */
-.logout-button {
-  background-color: #d9534f;
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(217, 83, 79, 0.4);
-}
-.logout-button:hover,
-.logout-button:focus {
-  background-color: #c12e2a;
-  box-shadow: 0 6px 18px rgba(193, 46, 42, 0.6);
-  transform: translateY(-2px);
+.citas-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
-/* Botón crear cita */
-.create-button {
-  background-color: #037bc0;
-  color: #fff;
-  font-size: 1.1rem;
-  max-width: 280px;
-  margin: 2rem auto 0 auto;
-  display: block;
-  box-shadow: 0 6px 16px rgba(3, 123, 192, 0.45);
-}
-.create-button:hover,
-.create-button:focus {
-  background-color: #025a8d;
-  box-shadow: 0 8px 24px rgba(2, 90, 141, 0.6);
-  transform: translateY(-2px);
-}
-
-/* Botón cancelar cita */
-.cancel-button {
-  background-color: #d9534f;
-  color: #fff;
-  font-size: 0.95rem;
-  padding: 0.6rem 1.4rem;
-  box-shadow: 0 4px 12px rgba(217, 83, 79, 0.4);
-}
-.cancel-button:hover,
-.cancel-button:focus {
-  background-color: #c12e2a;
-  box-shadow: 0 6px 18px rgba(193, 46, 42, 0.6);
-  transform: translateY(-2px);
-}
-
-/* Mensajes */
+.loading-message,
 .error,
 .success {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  border-radius: 14px;
-  font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.error {
-  color: #ff4d4f;
-  background-color: #ffe6e6;
-  border: 1.5px solid #ff4d4f;
-}
-
-.success {
-  color: #52c41a;
-  background-color: #ebffde;
-  border: 1.5px solid #52c41a;
-}
-
-/* Calendario */
-.calendar-container {
-  background: #fff;
-  border-radius: 16px;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-}
-
-/* FullCalendar */
-.fc {
-  font-family: 'Raleway', sans-serif;
-  color: #444;
-  user-select: none;
-}
-
-.fc-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0 1rem;
-  border-bottom: 2px solid #e0e0e0;
+  font-weight: 600;
   margin-bottom: 1rem;
 }
 
-.fc-button {
-  background-color: #037bc0;
-  border: none;
-  color: white;
-  font-weight: 700;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(3, 123, 192, 0.4);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+.loading-message {
+  color: #037BC0;
+  font-size: 1.2rem;
 }
 
-.fc-button:hover,
-.fc-button:focus {
-  background-color: #025a8d;
-  box-shadow: 0 6px 18px rgba(2, 90, 141, 0.55);
-  transform: translateY(-2px);
+.error {
+  color: #d9534f; /* rojo para errores */
 }
 
-.fc-button:disabled {
-  background-color: #b0bec5;
-  cursor: not-allowed;
-  box-shadow: none;
+.success {
+  color: #8cbc00; /* verde para éxito */
 }
 
-.fc-daygrid-day {
-  transition: background 0.3s ease;
-  cursor: pointer;
-  border-radius: 8px;
+.calendar-container {
+  margin-bottom: 2rem;
 }
 
-.fc-daygrid-day:hover {
-  background: rgba(3, 123, 192, 0.12);
-}
-
-.fc-event {
-  background-color: #87CEEB !important;
-  border-left: 5px solid #037bc0 !important;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-weight: 700;
-  min-height: 44px;
-  white-space: normal;
-  box-shadow: 0 3px 10px rgba(3, 123, 192, 0.2);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
-}
-
-.fc-event:hover {
-  background-color: #4682B4 !important;
-  box-shadow: 0 6px 18px rgba(70, 130, 180, 0.5);
-}
-
-/* Carrusel */
 .cita-item {
-  background: #f9fbfd;
-  padding: 1.5rem 2rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  min-height: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #333;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  text-align: left;
 }
 
 .cita-item p {
-  margin: 0.4rem 0;
+  margin: 0.3rem 0;
   font-size: 1rem;
-  font-weight: 600;
+  color: #333;
 }
 
-/* Responsive */
+.cancel-button {
+  margin-top: 0.8rem;
+  padding: 0.4rem 1rem;
+  background-color: #d9534f; /* rojo */
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c9302c; /* rojo oscuro */
+}
+
+/* Responsive para el slider */
 @media (max-width: 768px) {
-  .citas-container {
-    padding: 1.5rem 1rem;
-    max-width: 95%;
-  }
-
   .header {
-    justify-content: center;
-    gap: 0.75rem;
+    flex-direction: column;
   }
 
-  .profile-button,
-  .logout-button,
-  .create-button,
-  .cancel-button {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
-  }
-
-  .create-button {
+  .header button {
     width: 100%;
-    max-width: none;
   }
 
   .cita-item {
-    padding: 1rem 1.2rem;
-    min-height: auto;
+    padding: 1rem;
   }
 
-  .cita-item p {
-    font-size: 0.9rem;
-  }
-
-  .fc-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  /* Ajuste para Splide slider gap más pequeño */
+  .splide__list {
+    gap: 1rem !important;
   }
 }
