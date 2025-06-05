@@ -10,34 +10,40 @@ const profileData = ref({
   lastname: '',
   email: '',
   phone: '',
-  role: 'user',
-  date: '',  // agregado por si quieres usarlo
+  date: '',
 });
 const isEditing = ref(false);
-const loggedUserRole = localStorage.getItem('role')?.toLowerCase() || 'user';
 
 const apiUrl = 'http://127.0.0.1:5000/currentUser';
 
-function parseJwt(token) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch {
-    return null;
-  }
-}
-
-const redirectToLogin = () => {
+function redirectToLogin() {
   Swal.fire({
     icon: 'error',
     title: 'Sesión Expirada',
     text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
   });
   router.push('/login');
-};
+}
 
 const validateEmail = (email) => {
-  // Validación simple de email
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+// Valida formato DD/MM/YYYY
+const isValidDate = (dateStr) => {
+  const regex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/;
+  return regex.test(dateStr);
+};
+
+// Formatea fecha ISO a DD/MM/YYYY
+const formatDateToDDMMYYYY = (isoDate) => {
+  if (!isoDate) return '';
+  const date = new Date(isoDate);
+  if (isNaN(date)) return '';
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };
 
 const getProfile = async () => {
@@ -47,63 +53,19 @@ const getProfile = async () => {
   const res = await fetch(apiUrl, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
+
   if (res.ok) {
     const data = await res.json();
-    profileData.value = { ...data, role: (data.role || 'user').toLowerCase() };
-  } else if (res.status === 401) redirectToLogin();
+    profileData.value = {
+      ...data,
+      date: formatDateToDDMMYYYY(data.date), // formateo aquí
+    };
+  } else if (res.status === 401) {
+    redirectToLogin();
+  }
 };
 
 onMounted(() => getProfile());
-
-// Función mini login admin con Swal para confirmar cambio de rol
-async function adminLoginCheck() {
-  const { value: formValues } = await Swal.fire({
-    title: 'Confirmar admin para cambiar rol',
-    html:
-      '<input id="swal-username" class="swal2-input" placeholder="Usuario">' +
-      '<input id="swal-password" type="password" class="swal2-input" placeholder="Contraseña">',
-    focusConfirm: false,
-    preConfirm: () => {
-      return {
-        username: document.getElementById('swal-username').value,
-        password: document.getElementById('swal-password').value,
-      };
-    },
-  });
-
-  if (!formValues) return false;
-
-  try {
-    const res = await fetch('http://127.0.0.1:5000/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formValues),
-    });
-
-    if (!res.ok) {
-      Swal.showValidationMessage('Usuario o contraseña incorrectos');
-      return false;
-    }
-
-    const data = await res.json();
-    const decoded = parseJwt(data.access_token);
-
-    if (!decoded || decoded.role.toLowerCase() !== 'admin') {
-      Swal.showValidationMessage('Debe ser administrador para continuar');
-      return false;
-    }
-
-    // Guardamos token y rol admin temporal
-    localStorage.setItem('token', data.access_token);
-    localStorage.setItem('role', 'admin');
-
-    return true;
-
-  } catch {
-    Swal.showValidationMessage('Error en la conexión');
-    return false;
-  }
-}
 
 const saveProfile = async () => {
   const token = localStorage.getItem('token');
@@ -119,20 +81,17 @@ const saveProfile = async () => {
     return;
   }
 
-  // Si el rol ha cambiado y usuario actual NO es admin, pedimos login admin para confirmar
-  if (profileData.value.role !== loggedUserRole && loggedUserRole !== 'admin') {
-    const confirmed = await adminLoginCheck();
-    if (!confirmed) return;
+  if (!isValidDate(profileData.value.date)) {
+    Swal.fire('Error', 'La fecha debe tener el formato DD/MM/YYYY', 'error');
+    return;
   }
 
-  // Construir payload con solo campos permitidos
   const payload = {
     name: profileData.value.name,
     lastname: profileData.value.lastname,
     email: profileData.value.email,
     phone: profileData.value.phone,
-    date: profileData.value.date, // si usas fecha, sino lo puedes quitar
-    role: profileData.value.role,
+    date: profileData.value.date,
   };
 
   try {
@@ -145,18 +104,16 @@ const saveProfile = async () => {
       body: JSON.stringify(payload),
     });
 
-    if (res.status === 403) {
-      Swal.fire('Error', 'No tienes permisos para cambiar el rol', 'error');
-      return;
-    }
-
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.msg || 'Error al guardar el perfil');
     }
 
     const updatedData = await res.json();
-    profileData.value = { ...updatedData, role: (updatedData.role || 'user').toLowerCase() };
+    profileData.value = {
+      ...updatedData,
+      date: formatDateToDDMMYYYY(updatedData.date), // formatear después de actualizar
+    };
 
     Swal.fire('Éxito', 'Perfil guardado correctamente', 'success');
     isEditing.value = false;
@@ -181,7 +138,6 @@ const editProfile = () => {
       <p><b>Email:</b> {{ profileData.email }}</p>
       <p><b>Teléfono:</b> {{ profileData.phone }}</p>
       <p><b>Fecha:</b> {{ profileData.date }}</p>
-      <p><b>Rol:</b> {{ profileData.role }}</p>
     </div>
 
     <div v-else>
@@ -190,10 +146,6 @@ const editProfile = () => {
       <input v-model="profileData.email" placeholder="Email" />
       <input v-model="profileData.phone" placeholder="Teléfono" />
       <input v-model="profileData.date" placeholder="Fecha (DD/MM/YYYY)" />
-      <select v-model="profileData.role">
-        <option value="user">Usuario</option>
-        <option value="admin">Administrador</option>
-      </select>
     </div>
 
     <button v-if="!isEditing" @click="editProfile">Editar perfil</button>

@@ -112,9 +112,6 @@ const goToLogin = () => {
   router.push('/login');
 };
 
-const goToRegister = () => {
-  router.push('/register');
-};
 </script>
 
 <template>
@@ -133,32 +130,9 @@ const goToRegister = () => {
           <input v-model="date" type="date" placeholder="Fecha de nacimiento" />
         </div>
 
-        <div class="role-selector">
-          <label>Rol:</label>
-          <button
-            :class="{ 'selected-role': role === 'user' }"
-            @click="role = 'user'"
-          >
-            Usuario
-          </button>
-        </div>
-
         <button @click="register">Registrarse</button>
         <p class="login-link">
           ¿Ya tienes cuenta? <a href="#" @click.prevent="goToLogin">Inicia sesión</a>
-        </p>
-      </div>
-    </div>
-
-    <!-- Login -->
-    <div class="login-container">
-      <div class="login-box">
-        <h2>Iniciar sesión</h2>
-        <input v-model="loginUsername" placeholder="Usuario" />
-        <input v-model="loginPassword" type="password" placeholder="Contraseña" />
-        <button @click="login">Entrar</button>
-        <p class="register-link">
-          ¿No tienes cuenta? <a href="#" @click.prevent="goToRegister">Regístrate</a>
         </p>
       </div>
     </div>

@@ -4,6 +4,7 @@ import LoginView from '../components/PAGE/Login.vue'
 import Citas from '../components/PAGE/Citas.vue'
 import crearcitas from '../components/PAGE/crearcitas.vue'
 import verperfil from '../components/PAGE/Perfil.vue'
+import listado from '../components/PAGE/listado.vue'
 
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/verperfil',
       name: 'verperfil',
       component: verperfil,
+    },
+    {
+      path: '/listado',
+      name: 'Listado',
+      component: listado,
     }
   ],
 })
