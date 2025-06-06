@@ -22,6 +22,7 @@ Aplicación web desarrollada con Vue.js para gestionar citas de clientes en una 
 - Vue Router
 - SCSS
 - Splide
+- Calendar
 - SweetAlert2
 - Bootstrap 
 - Node.js (para la API REST)
