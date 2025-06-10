@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 
+const router = useRouter();
 const users = ref([]);
 const token = localStorage.getItem('token');
 const currentRole = localStorage.getItem('role')?.toLowerCase();
@@ -56,6 +58,10 @@ const changeRole = async (username, newRole) => {
   }
 };
 
+const goToCitas = () => {
+  router.push('/citas');
+};
+
 onMounted(() => {
   if (currentRole === 'admin') getUsers();
 });
@@ -63,28 +69,36 @@ onMounted(() => {
 
 <template>
   <div class="user-management p-6">
-    <h2>Gestión de Usuarios</h2>
+    <h2 class="text-2xl font-bold mb-4">Gestión de Usuarios</h2>
 
-    <div v-if="currentRole !== 'admin'" class="no-permission">
+<button
+  @click="goToCitas"
+  class="btn-center"
+>
+  Ir a Citas
+</button>
+
+
+    <div v-if="currentRole !== 'admin'" class="text-red-600 font-semibold">
       No tienes permisos para ver esta sección.
     </div>
 
     <div v-else class="overflow-x-auto">
-      <table>
+      <table class="w-full table-auto border-collapse">
         <thead>
-          <tr>
-            <th>Usuario</th>
-            <th>Rol</th>
+          <tr class="bg-gray-200">
+            <th class="px-4 py-2 text-left">Usuario</th>
+            <th class="px-4 py-2 text-left">Rol</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.username">
-            <td>{{ user.username }}</td>
-
-            <td class="text-center">
+          <tr v-for="user in users" :key="user.username" class="border-t">
+            <td class="px-4 py-2">{{ user.username }}</td>
+            <td class="px-4 py-2">
               <select
                 v-model="user.role"
                 @change="changeRole(user.username, user.role)"
+                class="border px-2 py-1 rounded"
               >
                 <option value="user">Usuario</option>
                 <option value="admin">Administrador</option>
