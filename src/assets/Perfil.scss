@@ -1,7 +1,6 @@
 .perfil-container {
   max-width: 400px;
-  margin: auto;
-  margin-top: 15%;
+  margin: 15% auto;
   padding: 1rem;
   background-color: #f7f9fc;
   border-radius: 8px;
@@ -15,29 +14,28 @@
   color: #037BC0;
 }
 
-.perfil-display {
-  .perfil-item {
-    margin: 0.5rem 0;
-    font-size: 1rem;
-    color: #333;
-  }
+.perfil-display .perfil-item {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 .perfil-edit {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
 
-  .perfil-input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    &:focus {
-      border-color: #037BC0;
-      outline: none;
-    }
-  }
+.perfil-edit .perfil-input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.perfil-edit .perfil-input:focus {
+  border-color: #037BC0;
+  outline: none;
 }
 
 .perfil-button {
@@ -50,29 +48,80 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
 
-  &.perfil-button-edit {
-    background-color: #037BC0;
-    color: white;
-    &:hover {
-      background-color: #025a8f;
-    }
+.perfil-button-edit {
+  background-color: #037BC0;
+  color: white;
+}
+
+.perfil-button-edit:hover {
+  background-color: #025a8f;
+}
+
+.perfil-button-save {
+  background-color: #8cbc00;
+  color: white;
+}
+
+.perfil-button-save:hover {
+  background-color: #6f9200;
+}
+
+.perfil-button-back {
+  background-color: #555;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.perfil-button-back:hover {
+  background-color: #333;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .perfil-container {
+    max-width: 90%;
+    margin-top: 20%;
+    padding: 1rem;
   }
 
-  &.perfil-button-save {
-    background-color: #8cbc00;
-    color: white;
-    &:hover {
-      background-color: #6f9200;
-    }
+  .perfil-title {
+    font-size: 1.3rem;
   }
 
-  &.perfil-button-back {
-    background-color: #555;
-    color: white;
-    margin-top: 0.5rem;
-    &:hover {
-      background-color: #333;
-    }
+  .perfil-edit .perfil-input {
+    font-size: 0.95rem;
+    padding: 0.45rem;
+  }
+
+  .perfil-button {
+    font-size: 0.95rem;
+    padding: 0.55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .perfil-container {
+    margin-top: 25%;
+    padding: 0.8rem;
+  }
+
+  .perfil-title {
+    font-size: 1.2rem;
+  }
+
+  .perfil-display .perfil-item {
+    font-size: 0.95rem;
+  }
+
+  .perfil-edit .perfil-input {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  .perfil-button {
+    font-size: 0.9rem;
+    padding: 0.5rem;
   }
 }

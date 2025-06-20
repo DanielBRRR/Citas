@@ -1,10 +1,12 @@
-$primary-color: black;
-$primary-dark: black;
-$bg-color: transparent;
-$input-bg: #ffffff;
-$input-border: #d1d5db;
-$border-radius: 10px;
-$transition: 0.3s ease-in-out;
+:root {
+  --primary-color: black;
+  --primary-dark: black;
+  --bg-color: transparent;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --border-radius: 10px;
+  --transition: 0.3s ease-in-out;
+}
 
 .container {
   display: flex;
@@ -12,102 +14,102 @@ $transition: 0.3s ease-in-out;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: $bg-color;
+  background: var(--bg-color);
   padding: 20px;
-
-  .login-box {
-    background: white;
-    padding: 40px;
-    border-radius: $border-radius;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 100%;
-    max-width: 350px;
-    color: $primary-color; // Asegura que el texto dentro de .login-box sea visible
-
-    h2 {
-      margin-bottom: 20px;
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    .input-group {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-
-      input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid $input-border;
-        border-radius: $border-radius;
-        font-size: 16px;
-        background: $input-bg;
-        outline: none;
-        color: $primary-color; // Asegura que el texto dentro del input sea visible
-        transition: $transition;
-
-        &:focus {
-          border-color: $primary-color;
-          box-shadow: 0 0 8px rgba(3, 123, 192, 0.4);
-          transform: scale(1.02);
-        }
-      }
-    }
-
-    .button {
-      width: 100%;
-      background: $primary-color;
-      color: white; // Asegura que el texto dentro del botón sea blanco
-      padding: 12px;
-      border: none;
-      border-radius: $border-radius;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: 600;
-      margin-top: 20px;
-      transition: $transition;
-
-      &:hover {
-        background: $primary-dark;
-        transform: translateY(-3px);
-      }
-
-      &:active {
-        transform: scale(0.97);
-      }
-    }
-
-    .error-msg {
-      color: red;
-      margin-top: 15px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-  }
-
-  .register-link {
-    margin-top: 15px;
-    font-size: 14px;
-    color: $primary-color;
-    cursor: pointer;
-    text-align: center;
-    font-weight: 600;
-    transition: $transition;
-
-    span {
-      text-decoration: underline;
-
-      &:hover {
-        text-decoration: none;
-        color: $primary-dark;
-      }
-    }
-  }
 }
 
-// Media Queries para Responsividad
+.login-box {
+  background: white;
+  padding: 40px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+  color: var(--primary-color);
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  background: var(--input-bg);
+  outline: none;
+  color: var(--primary-color);
+  transition: var(--transition);
+}
+
+.input-group input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(3, 123, 192, 0.4);
+  transform: scale(1.02);
+}
+
+.button {
+  width: 100%;
+  background: var(--primary-color);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 20px;
+  transition: var(--transition);
+}
+
+.button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.error-msg {
+  color: red;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: var(--primary-color);
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.register-link span {
+  text-decoration: underline;
+}
+
+.register-link span:hover {
+  text-decoration: none;
+  color: var(--primary-dark);
+}
+
+/* Media Queries */
 
 @media (max-width: 1024px) {
   .container {
@@ -136,7 +138,7 @@ $transition: 0.3s ease-in-out;
     max-width: 90%;
   }
 
-  h2 {
+  .login-box h2 {
     font-size: 24px;
   }
 
@@ -152,19 +154,19 @@ $transition: 0.3s ease-in-out;
 
 @media (max-width: 480px) {
   .container {
-    padding: 30px 15px; /* Reduce padding para dispositivos más pequeños */
+    padding: 30px 15px;
   }
 
   .login-box {
     padding: 20px;
   }
 
-  h2 {
-    font-size: 20px; /* Ajusta el tamaño del título */
+  .login-box h2 {
+    font-size: 20px;
   }
 
   .input-group input {
-    font-size: 14px; /* Reduce el tamaño de fuente de los inputs */
+    font-size: 14px;
   }
 
   .button {
@@ -173,10 +175,10 @@ $transition: 0.3s ease-in-out;
   }
 
   .register-link {
-    font-size: 12px; /* Reduce el tamaño de la fuente del link */
+    font-size: 12px;
   }
 
   .error-msg {
-    font-size: 12px; /* Ajusta el tamaño del texto de error */
+    font-size: 12px;
   }
 }

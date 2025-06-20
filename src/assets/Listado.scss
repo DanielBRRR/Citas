@@ -6,6 +6,7 @@
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: auto;
 }
 
 .user-management h2 {
@@ -23,15 +24,17 @@
   margin-top: 3rem;
 }
 
+/* Hacemos scroll horizontal en pantallas pequeñas */
 .user-management table {
   width: 100%;
+  min-width: 600px;
   border-collapse: separate;
   border-spacing: 0 0.5rem;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
-  text-align: center; /* Centrar texto en toda la tabla */
+  text-align: center;
 }
 
 .user-management thead tr {
@@ -44,7 +47,7 @@
 
 .user-management thead th {
   padding: 1rem 1.25rem;
-  text-align: center; /* Centrar los encabezados */
+  text-align: center;
 }
 
 .user-management tbody td {
@@ -54,7 +57,7 @@
   vertical-align: middle;
   border-bottom: none;
   border-radius: 6px;
-  text-align: center; /* Centrar contenido de celdas */
+  text-align: center;
 }
 
 .user-management tbody tr {
@@ -77,10 +80,9 @@
   cursor: pointer;
   transition: border-color 0.2s ease;
   font-size: 0.9rem;
-  /* Eliminar margin-right para no desplazarlo */
   margin: 0 auto;
   display: block;
-  min-width: 110px; /* Ancho mínimo para que no se vea muy pequeño */
+  min-width: 110px;
 }
 
 .user-management select:focus {
@@ -88,9 +90,10 @@
   border-color: #1d4ed8;
   box-shadow: 0 0 6px rgba(29, 78, 216, 0.6);
 }
+
 .btn-center {
   display: block;
-  margin: 0 auto 2rem auto; /* centrado y separación inferior */
+  margin: 0 auto 2rem auto;
   padding: 0.6rem 1.2rem;
   background-color: #2563eb;
   color: white;
@@ -122,12 +125,43 @@
   overflow-x: auto;
 }
 
-@media (max-width: 640px) {
+/* Responsive */
+@media (max-width: 768px) {
   .user-management {
     padding: 1rem;
   }
 
   .user-management table {
     font-size: 0.85rem;
+  }
+
+  .user-management h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-management {
+    padding: 0.75rem;
+  }
+
+  .user-management h2 {
+    font-size: 1.3rem;
+  }
+
+  .btn-center {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    max-width: 100%;
+  }
+
+  .user-management select {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .user-management table {
+    min-width: 100%;
+    font-size: 0.8rem;
   }
 }

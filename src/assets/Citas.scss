@@ -1,39 +1,66 @@
+/* Estilos base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Raleway', sans-serif;
+  background-color: #f4f4f4;
+  overflow-x: hidden;
+}
+
+body {
+  padding: 1rem;
+}
+
+/* Header */
 .header {
-  background-color: transparent; /* azul principal */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
   padding: 1rem;
   border-radius: 8px;
   color: white;
+  flex-wrap: wrap;
 }
 
 .header button {
-    width: 20%;
-    padding: 16px;
-    background: linear-gradient(135deg, #00bcd4, #03a9f4);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: 60;
-    margin-left: 70px;
-    cursor: pointer;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    transition: background 0.4s ease, transform 0.3s ease;
-    font-family: 'Roboto', sans-serif;
+  width: 20%;
+  min-width: 160px;
+  padding: 16px;
+  background: linear-gradient(135deg, #00bcd4, #03a9f4);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 70px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: background 0.4s ease, transform 0.3s ease;
+  font-family: 'Roboto', sans-serif;
 }
 
 .header button:hover {
-  background-color: transparent; /* azul más oscuro para hover */
+  background-color: transparent;
 }
 
+/* Contenedor de citas */
 .citas-container {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 2rem auto;
   padding: 1rem;
   background: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
+/* Mensajes */
 .loading-message,
 .error,
 .success {
@@ -48,23 +75,26 @@
 }
 
 .error {
-  color: #d9534f; /* rojo para errores */
+  color: #d9534f;
 }
 
 .success {
-  color: #8cbc00; /* verde para éxito */
+  color: #8cbc00;
 }
 
+/* Calendario */
 .calendar-container {
   margin-bottom: 2rem;
 }
 
+/* Cita individual */
 .cita-item {
   background-color: white;
   border-radius: 8px;
   padding: 1rem 1.5rem;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
   text-align: left;
+  margin-bottom: 1rem;
 }
 
 .cita-item p {
@@ -76,7 +106,7 @@
 .cancel-button {
   margin-top: 0.8rem;
   padding: 0.4rem 1rem;
-  background-color: #d9534f; /* rojo */
+  background-color: #d9534f;
   border: none;
   color: white;
   border-radius: 5px;
@@ -86,11 +116,16 @@
 }
 
 .cancel-button:hover {
-  background-color: #c9302c; /* rojo oscuro */
+  background-color: #c9302c;
 }
 
-/* Responsive para el slider */
-@media (max-width: 768px) {
+/* Slider gap */
+.splide__list {
+  gap: 1.5rem;
+}
+
+/* RESPONSIVE RULES */
+@media (max-width: 1024px) {
   .header {
     flex-direction: column;
     align-items: stretch;
@@ -98,14 +133,49 @@
 
   .header button {
     width: 100%;
-    max-width: none;
+    margin-left: 0;
+    margin-top: 1rem;
   }
-  .cita-item {
-    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .citas-container {
+    padding: 1rem 0.5rem;
   }
 
-  /* Ajuste para Splide slider gap más pequeño */
+  .cita-item {
+    padding: 0.8rem;
+  }
+
   .splide__list {
     gap: 1rem !important;
+  }
+
+  body {
+    padding: 0.5rem;
+  }
+
+  .loading-message {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.5rem;
+  }
+
+  .header button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .cita-item p {
+    font-size: 0.95rem;
+  }
+
+  .cancel-button {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
   }
 }
